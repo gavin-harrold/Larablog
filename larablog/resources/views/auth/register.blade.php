@@ -65,7 +65,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="bg-green-300 text-white px-4 py-3 
+                    <button type="submit" class="bg-green-500 text-white px-4 py-3 
                     rounded font-medium w-full">Register</button>
                 </div>
             </form>
