@@ -23,7 +23,10 @@ class PostLikeController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
-        Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+        if(!$post->likes()->onlyTrashed()->where('user_id', $request->user()->id)->count()) { 
+            //only email if no previous record of like (soft delete)
+            Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+        }
 
         return back();
     }
