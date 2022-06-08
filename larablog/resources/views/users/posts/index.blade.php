@@ -7,7 +7,7 @@
             <div class="p-6">
                 <h1 class="text-2xl font-medium mb-1">{{ $user->name }}</h1>
                 <p>Posted {{ $posts->count() }} {{ Str::plural('post', $posts->count()) }}
-                and received x likes</p>
+                and received {{ $user->receivedLikes->count() }} likes</p>
             </div>
 
             <div class="bg-white p-6 rounded-lg">
