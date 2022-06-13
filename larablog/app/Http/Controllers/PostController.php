@@ -29,6 +29,7 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
+        dd("sorry, our file upload currently doesn't work :) this is a placeholder");
         $this->validate($request, [
             'body' => "required",
             'img' => "nullable|image|mimes:png,jpg,jpeg,svg,gif|max:2048"
