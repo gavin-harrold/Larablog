@@ -1,13 +1,16 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use Symfony\Component\Console\Input\Input;
 use App\Http\Controllers\PostLikeController;
+use App\Http\Controllers\UserPostController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\UserPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,5 +45,19 @@ Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
 ->middleware('auth');
+
+Route::post('/search', function(Request $request) {
+    $query = $request->q;
+    $user = User::where('name', 'LIKE', '%'.$query.'%')
+        ->orWhere('email', 'LIKE', '%'.$query.'%')->get();
+    if(count($user) > 0) {
+        return view('results')
+            ->with('results', $user)
+            ->with('query', $query);
+    }
+    else {
+        return view('results')->with('results', NULL);
+    }
+});
 
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout');

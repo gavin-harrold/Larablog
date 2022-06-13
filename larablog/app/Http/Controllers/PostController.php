@@ -45,7 +45,7 @@ class PostController extends Controller
             dd($request->file('img')->getMimeType());
         }
 
-        //$request->user()->posts()->create($request->only(['body', 'img']));
+        $request->user()->posts()->create($request->only(['body', 'img']));
 
 
         return back();
