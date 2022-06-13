@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Symfony\Component\Mime;
+use Symfony\Component\Finder\Iterator\FilenameFilterIterator;
 
 class PostController extends Controller
 {
@@ -28,10 +30,22 @@ class PostController extends Controller
 
     public function store(Request $request) {
         $this->validate($request, [
-            'body' => "required"
+            'body' => "required",
+            'img' => "nullable|image|mimes:png,jpg,jpeg,svg,gif|max:2048"
         ]);
 
-        $request->user()->posts()->create($request->only('body'));
+
+        if($request->hasFile('img')) {
+            $filenameWithExtension = $request->file('img')->getClientOriginalName();
+            $fileName = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('img')->getClientOriginalExtension();
+            $filenameToStore = $fileName.'_'.time().'.'.$extension;
+            $path = $request->file('img')->storeAs('public/imgs', $filenameToStore);
+            dd($request->file('img')->getMimeType());
+        }
+
+        //$request->user()->posts()->create($request->only(['body', 'img']));
+
 
         return back();
     }

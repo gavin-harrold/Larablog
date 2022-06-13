@@ -9,7 +9,12 @@
         
         <p class="mb-2">{{ $post->body }}</p>
 
-        
+        @if ($post->img)
+        <span>
+            <img class="hidden w-48 ml-3 md:block" src="{{ asset('storage/' . $post->img) }}" alt="">
+        </span>
+        @endif
+
         @can('delete', $post)
             <form action="{{ route('posts.destroy', $post) }}" method="POST">
                 @csrf

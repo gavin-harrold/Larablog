@@ -18,6 +18,7 @@ return new class extends Migration
             //$table->integer('user_id')->unsigned()->index();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); //alternate way to relation specified above
             $table->text('body');
+            $table->string('img')->nullable();
             $table->timestamps();
         });
     }
