@@ -18,9 +18,18 @@ class PostFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'body' => $this->faker->sentence(20), 
-            'img' => $this->faker->imageUrl(),
-        ];
+        $random = rand();
+        if($random >=getrandmax()/2) {
+            return [
+                'body' => $this->faker->sentence(20), 
+                'img' => $this->faker->imageUrl(rand(30, 3000), rand(30, 3000)),
+            ];
+        }
+        else {
+            return [
+                'body' => $this->faker->sentence(20), 
+                //'img' => $this->faker->imageUrl(),
+            ];
+        }
     }
 }
