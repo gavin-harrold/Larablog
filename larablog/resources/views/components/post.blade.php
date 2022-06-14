@@ -16,8 +16,9 @@
                 <span>
                     <img class="hidden w-70 ml-3 md:block" src="{{ asset('storage/'.$post->img) }}" alt="">
                 </span>
-            @else
+            @else 
             {{-- use seeded url for image instead --}}
+            {{-- test commit --}}
                 <span>
                     <img class="hidden w-70 ml-3 md:block" src="{{$post->img}}" alt="">
                 </span>
