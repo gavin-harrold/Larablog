@@ -10,9 +10,15 @@
         <p class="mb-2">{{ $post->body }}</p>
 
         @if ($post->img)
-        <span>
-            <img class="hidden w-48 ml-3 md:block" src="{{ asset('storage/' . $post->img) }}" alt="">
-        </span>
+            @if(file_exists('storage/'.$post->img))
+                <span>
+                    <img class="hidden w-48 ml-3 md:block" src="{{ asset('storage/'.$post->img) }}" alt="">
+                </span>
+            @else
+                <span>
+                    <img class="hidden w-48 ml-3 md:block" src="{{$post->img}}" alt="">
+                </span>
+            @endif
         @endif
 
         @can('delete', $post)

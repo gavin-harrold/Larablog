@@ -29,24 +29,26 @@ class PostController extends Controller
     }
 
     public function store(Request $request) {
-        dd("sorry, our file upload currently doesn't work :) this is a placeholder");
+        //dd("sorry, our file upload currently doesn't work :) this is a placeholder");
         $this->validate($request, [
             'body' => "required",
             'img' => "nullable|image|mimes:png,jpg,jpeg,svg,gif|max:2048"
         ]);
 
-
+        $newPost = new Post;
+        $newPost->body = $request->body;
+        //$path = NULL;
         if($request->hasFile('img')) {
             $filenameWithExtension = $request->file('img')->getClientOriginalName();
             $fileName = pathinfo($filenameWithExtension, PATHINFO_FILENAME);
             $extension = $request->file('img')->getClientOriginalExtension();
             $filenameToStore = $fileName.'_'.time().'.'.$extension;
             $path = $request->file('img')->storeAs('public/imgs', $filenameToStore);
-            dd($request->file('img')->getMimeType());
+            $newPost->img = $path;
         }
 
-        $request->user()->posts()->create($request->only(['body', 'img']));
-
+        //$request->user()->posts()->create($request->only(['body']));
+        $request->user()->posts()->save($newPost);
 
         return back();
     }
