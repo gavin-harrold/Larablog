@@ -9,12 +9,15 @@
         
         <p class="mb-2">{{ $post->body }}</p>
 
+        {{-- check if post has an image entry in db --}}
         @if ($post->img)
+            {{-- check if file exists (strictly for seeding purposes) --}}
             @if(file_exists('storage/'.$post->img))
                 <span>
                     <img class="hidden w-70 ml-3 md:block" src="{{ asset('storage/'.$post->img) }}" alt="">
                 </span>
             @else
+            {{-- use seeded url for image instead --}}
                 <span>
                     <img class="hidden w-70 ml-3 md:block" src="{{$post->img}}" alt="">
                 </span>
