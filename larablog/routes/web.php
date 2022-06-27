@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +46,13 @@ Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')
 ->middleware('auth');
+//Route::post('/dashboard', function() {dd('hi');});
+
+/* Route::get('/notifications', function() {
+    return view('users.notifications');
+})->name('notification'); */
+Route::get('/notifications', [NotificationController::class, 'sendWebhook'])->name('notification');
+//Route::post('/notifications', function() {dd('hi');});
 
 Route::post('/search', function(Request $request) {
     $query = $request->q;
