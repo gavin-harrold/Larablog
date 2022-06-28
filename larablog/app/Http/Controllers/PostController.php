@@ -6,6 +6,8 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Symfony\Component\Mime;
 use Symfony\Component\Finder\Iterator\FilenameFilterIterator;
+use Illuminate\Support\Facades\DB;
+
 
 class PostController extends Controller
 {
@@ -49,6 +51,9 @@ class PostController extends Controller
 
         //$request->user()->posts()->create($request->only(['body']));
         $request->user()->posts()->save($newPost);
+
+        //send webhook
+        app('App\Http\Controllers\NotificationController')->sendWebhook($request->user(), 1);
 
         return back();
     }

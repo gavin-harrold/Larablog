@@ -7,6 +7,8 @@ use App\Mail\PostLiked;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Spatie\WebhookServer\WebhookCall;
+use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\DB;
 
 class PostLikeController extends Controller
 {
@@ -27,6 +29,11 @@ class PostLikeController extends Controller
         if(!$post->likes()->onlyTrashed()->where('user_id', $request->user()->id)->count()) { 
             //only email if no previous record of like (soft delete)
             Mail::to($post->user)->send(new PostLiked(auth()->user(), $post));
+            
+            //check if the receiver of like is the currently authenticated user for webhooks
+            if($post->user == auth()->user()) {
+                app('App\Http\Controllers\NotificationController')->sendWebhook($request->user(), 2);
+            }
         }
 
         return back();

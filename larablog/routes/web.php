@@ -49,7 +49,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 //Route::post('/dashboard', function() {dd('hi');});
 
 Route::get('/notifications', [NotificationController::class, 'show'])->name('notification');
-Route::post('/notifications', [NotificationController::class, 'sendWebhook']);
+Route::post('/notifications', [NotificationController::class, 'store']);
 
 Route::post('/search', function(Request $request) {
     $query = $request->q;

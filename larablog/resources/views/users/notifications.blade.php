@@ -26,7 +26,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="noti-options">Choose notification triggers:</label>
-                        <select name="noti-options" id="noti-options" 
+                        <select name="noti_options" id="noti_options" 
                         class="bg-gray-100 border-2 w-full p-4 rounded-lg">
                             <option value="no-option" selected>None</option>
                             <option value="post-create">Post Creation</option>
@@ -34,7 +34,7 @@
                             <option value="all-option">All</option>
                         </select>
 
-                        @error('noti-options')
+                        @error('noti_options')
                         <div class="text-red-500 mt-2 text-sm">
                             {{ $message }}
                         </div>
