@@ -11,8 +11,15 @@ class NotificationController extends Controller
     }
 
     public function sendWebhook(Request $request) {
-        $url = "https://discord.com/api/webhooks/991020568050536490/tss6PYrxdinf4gw7HUqTvYvboBC4xPA8h8fJma_lUS2MM1zwM-jwtaZkMtqoKR8i1PEz";
 
+        $this->validate($request, [
+            'destination' => 'nullable|url',
+            'noti-options' => 'required_with:destination'
+        ]);
+
+        //old url saved in other file :)
+
+        $url = $request->destination;
         $userLikes = auth()->user()->receivedLikes->count();
 
         $curl = curl_init($url);
