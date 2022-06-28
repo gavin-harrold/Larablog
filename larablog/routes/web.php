@@ -48,11 +48,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 ->middleware('auth');
 //Route::post('/dashboard', function() {dd('hi');});
 
-/* Route::get('/notifications', function() {
-    return view('users.notifications');
-})->name('notification'); */
-Route::get('/notifications', [NotificationController::class, 'sendWebhook'])->name('notification');
-//Route::post('/notifications', function() {dd('hi');});
+Route::get('/notifications', [NotificationController::class, 'show'])->name('notification');
+Route::post('/notifications', [NotificationController::class, 'sendWebhook']);
 
 Route::post('/search', function(Request $request) {
     $query = $request->q;

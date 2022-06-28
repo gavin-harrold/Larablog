@@ -6,7 +6,11 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    public function sendWebhook() {
+    public function show() {
+        return view('users.notifications');
+    }
+
+    public function sendWebhook(Request $request) {
         $url = "https://discord.com/api/webhooks/991020568050536490/tss6PYrxdinf4gw7HUqTvYvboBC4xPA8h8fJma_lUS2MM1zwM-jwtaZkMtqoKR8i1PEz";
 
         $userLikes = auth()->user()->receivedLikes->count();
@@ -30,6 +34,6 @@ class NotificationController extends Controller
 
         curl_exec($curl);
         curl_close($curl);
-        return back();
+        return redirect("/");
     }
 }
