@@ -12,6 +12,11 @@ class NotificationController extends Controller
         return view('users.notifications');
     }
 
+    /*
+        SAVE INFO IN DB
+        @param $request current request data
+        @desc save user's information from form on /notifications into the database in order to retrieve on event calls
+    */
     public function store(Request $request) {
 
         $this->validate($request, [
@@ -47,12 +52,19 @@ class NotificationController extends Controller
         return redirect("/");
     }
 
-    public function sendWebhook($user, int $expectedValue) {
+    /*
+        SEND WEBHOOK
+        @param $user current user
+        @param $expectedValue expected value of function call, 1 or 2 representing post created or post liked 
+        @desc send webhook to user based on their settings
+    */
+    public function sendWebhook($user, $expectedValue) {
         //user doesn't have a saved destination_url, meaning cannot have a notification option
         if(DB::table('users')->where('destination_url', null)->exists()) {
             return;
         }
                 
+        //pull URL and notification option from database using unique email (can be changed to ID)
         $url = DB::table('users')
             ->where('email', $user->email)
             ->select('destination_url')
@@ -62,13 +74,18 @@ class NotificationController extends Controller
             ->where('email', $user->email)
             ->get('notification_option');
               
+        //get actual value from collection returned by get()
         $notification_option = $notification_option[0]->notification_option;    
 
+        //define empty variable for body content specifically for Discord, could pertain to others?
         $contentBody = null;
+
+        //if user has all notifications on, change to react to whatever event is currently being called
         if($notification_option === 3) {
             $notification_option = $expectedValue;
         }
 
+        //check for current call and change message body accordingly
         if($notification_option === $expectedValue) {
             switch($notification_option) {
                 case(1):
@@ -81,6 +98,8 @@ class NotificationController extends Controller
                     return;
             }
         }
+
+        //curl stuff to send webhook
         $url = $url[0]->destination_url;
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_URL, $url);
